@@ -20,7 +20,7 @@ class SearchController extends ActionController
     {
         $q = strtolower(GeneralUtility::_GET('q') ?? '');
         $sitefinder = GeneralUtility::makeInstance(SiteFinder::class);
-        $currentSite = $sitefinder->getSiteByPageId($this->getTypoScriptFrontendController()->id);
+        $currentSite = $sitefinder->getSiteByPageId((int)$this->getTypoScriptFrontendController()->id);
 
         /** @var ElasticConfig $elasticConfig */
         $elasticConfig = GeneralUtility::makeInstance(ElasticConfig::class, $currentSite);
@@ -40,7 +40,7 @@ class SearchController extends ActionController
         $results = $elasticConfig->getClient()->search($searchParams);
         if ($results['hits']['hits']) {
             header('Content-Type: application/json');
-            echo json_encode($results['hits']['hits']);
+            echo json_encode($results);
             exit;
         }
 

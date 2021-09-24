@@ -10,7 +10,6 @@ use Pluswerk\Elasticsearch\Service\FrontendSimulationService;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 abstract class AbstractElasticIndexer implements ElasticIndexable
 {

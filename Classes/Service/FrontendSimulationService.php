@@ -13,40 +13,45 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class FrontendSimulationService
 {
+
+
     protected $initialized = false;
 
     public function initTSFE(int $id = 1, int $typeNum = 0): void
     {
-        if ($this->initialized) {
-            return;
-        }
-
-        /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageSelect */
-        $rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $id);
-        $rootLine = $rootLineUtility->get();
-
-        $tmpl = GeneralUtility::makeInstance(ExtendedTemplateService::class);
-        $tmpl->tt_track = false;
-        $tmpl->runThroughTemplates($rootLine);
-
-        if (!is_object($GLOBALS['TT'])) {
-            $GLOBALS['TT'] = new TimeTracker(false);
-            $GLOBALS['TT']->start();
-        }
-
-        $GLOBALS['TSFE'] = GeneralUtility::makeInstance(TypoScriptFrontendController::class, $GLOBALS['TYPO3_CONF_VARS'], $id, $typeNum);
-
-        $GLOBALS['TSFE']->sys_page = $pageSelect;
-        $GLOBALS['TSFE']->initFEuser();
-        $GLOBALS['TSFE']->determineId();
-        $GLOBALS['TSFE']->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $this->initialized = true;
+        \TYPO3\CMS\Extbase\Utility\FrontendSimulatorUtility::simulateFrontendEnvironment();
+        //
+        //if ($this->initialized) {
+        //    return;
+        //}
+        //
+        ///** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageSelect */
+        //$rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $id);
+        //$rootLine = $rootLineUtility->get();
+        //
+        //$tmpl = GeneralUtility::makeInstance(ExtendedTemplateService::class);
+        //$tmpl->tt_track = false;
+        //$tmpl->runThroughTemplates($rootLine);
+        //
+        //if (!is_object($GLOBALS['TT'])) {
+        //    $GLOBALS['TT'] = new TimeTracker(false);
+        //    $GLOBALS['TT']->start();
+        //}
+        //
+        //$GLOBALS['TSFE'] = GeneralUtility::makeInstance(TypoScriptFrontendController::class, $GLOBALS['TYPO3_CONF_VARS'], $id, $typeNum);
+        //
+        //$GLOBALS['TSFE']->sys_page = $pageSelect;
+        //$GLOBALS['TSFE']->initFEuser();
+        //$GLOBALS['TSFE']->determineId();
+        //$GLOBALS['TSFE']->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        //$this->initialized = true;
     }
 
     public function reset(): void
     {
-        $GLOBALS['TT'] = null;
-        $GLOBALS['TSFE'] = null;
-        $this->initialized = false;
+        \TYPO3\CMS\Extbase\Utility\FrontendSimulatorUtility::resetFrontendEnvironment();
+        //$GLOBALS['TT'] = null;
+        //$GLOBALS['TSFE'] = null;
+        //$this->initialized = false;
     }
 }

@@ -121,4 +121,9 @@ class ElasticConfig
     {
         return $this->site->getConfiguration()['elasticsearch']['tables'][$tableName]['uriBuilderConfig'] ?? [];
     }
+
+    public function getRouteConfig(string $tableName): array
+    {
+        return $this->site->getConfiguration()['elasticsearch']['tables'][$tableName]['routeConfig'] ?? [];
+    }
 }
